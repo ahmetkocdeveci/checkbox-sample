@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkboxes</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+  <style>
+    html {
+      font-family: sans-serif;
+      background: #ffc600;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    .inbox {
+      max-width: 400px;
+      width: 100%;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #F1F1F1;
+      background: white;
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    input:checked + p {
+      background: #F9F9F9;
+      text-decoration: line-through;
+    }
+
+    input[type="checkbox"] {
+      margin: 20px;
+    }
+
+    p {
+      margin: 0;
+      padding: 20px;
+      transition: background 0.2s;
+      flex: 1;
+      font-family:'helvetica neue';
+      font-size: 20px;
+      font-weight: 200;
+      border-left: 1px solid #D1E2FF;
+    }
+
+    .control-btn {
+      cursor: pointer;
+      justify-content: center;
+      user-select: none;
+      background: #f9f9f9;
+    }
+
+    .control-btn:hover {
+      background: #eee;
+    }
+
+    .control-btn p {
+      text-align: center;
+      border-left: none;
+      font-weight: 500;
+      color: #333;
+      padding: 15px;
+    }
+
+    .footer {
+      justify-content: flex-end;
+      padding: 15px;
+      background: #f4f4f4;
+    }
+
+    #submitBtn {
+      background: #ffc600;
+      color: #333;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'helvetica neue';
+      transition: transform 0.1s;
+    }
+
+    #submitBtn:hover {
+      background: #ffdb4d;
+    }
+
+    #submitBtn:active {
+      transform: scale(0.98);
+    }
+  </style>
+
+  <div class="inbox">
+    
+    <div class="item control-btn" id="toggleAll">
+      <p>Tümünü Seç / Kaldır</p>
+    </div>
+
+    <div class="item control-btn" id="uncheckAll">
+      <p>Seçimi Temizle</p>
+    </div>
+
+    <div class="item">
+      <input type="checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Everything in between should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Try to do it without any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+
+    <div class="item footer">
+      <button id="submitBtn">Gönder</button>
+    </div>
+  </div>
+
+<script> 
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+const toggleBtn = document.getElementById('toggleAll');
+const uncheckBtn = document.getElementById('uncheckAll');
+const submitBtn = document.getElementById('submitBtn');
+
+let lastChecked;
+
+function handleCheck(e) {
+  let inBetween = false;
+  if (e.shiftKey && lastChecked) {
+    checkboxes.forEach(checkbox => {
+      if (checkbox === this || checkbox === lastChecked) {
+        inBetween = !inBetween;
+      }
+      if (inBetween) {
+        checkbox.checked = this.checked;
+      }
+    });
+  }
+  lastChecked = this;
+}
+
+function handleToggleAll() {
+  const allSelected = Array.from(checkboxes).every(checkbox => checkbox.checked);
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = !allSelected;
+  });
+}
+
+function handleUncheckAll() {
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+}
+
+function handleSubmit() {
+  const checkedCount = document.querySelectorAll('.inbox input[type="checkbox"]:checked').length;
+  
+  if (checkedCount === 0) {
+    alert('Lütfen en az 1 tane seçin');
+  } else {
+    alert('Listeniz başarı ile gönderildi!');
+  }
+}
+
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+toggleBtn.addEventListener('click', handleToggleAll);
+uncheckBtn.addEventListener('click', handleUncheckAll);
+submitBtn.addEventListener('click', handleSubmit);
+</script>
+</body>
+</html>
